@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Cancellation Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('railway4.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        .headline {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+        .tagline {
+            font-size: 1.2rem;
+            margin: 10px 0 0;
+        }
+        main {
+            padding: 20px;
+            flex-grow: 1;
+        }
+        .about, .history {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        h2 {
+            font-size: 1.8rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007BFF;
+        }
+        tr:nth-child(even) {
+            background-color: #1ca4b0;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .buttons a, .buttons button {
+            text-decoration: none;
+            background: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .buttons a:hover {
+            background: #0056b3;
+        }
+        .buttons button {
+            background: #FF5733;
+            border: none;
+        }
+        .buttons button:hover {
+            background: #C70039;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="headline">Ticket Cancellation Confirmation</h1>
+        <p class="tagline">Your ticket cancellation request has been processed successfully!</p>
+    </header>
+
+    <main>
+        <section class="about">
+            <h2>Cancellation Details</h2>
+            <p id="confirmationMessage"></p>
+        </section>
+
+        <section class="history">
+            <h2>Your Cancellation History</h2>
+            <table>
+                <tr>
+                    <th>Passenger Name</th>
+                    <th>Departure Station</th>
+                    <th>Destination Station</th>
+                    <th>Date of Journey</th>
+                    <th>Reason for Cancellation</th>
+                </tr>
+                <tbody id="cancellationDetails">
+                    <!-- Cancellation details will appear here -->
+                </tbody>
+            </table>
+        </section>
+
+        <div class="buttons">
+            <button onclick="clearCancellationHistory()">Clear Cancellation History</button>
+            <a href="Railway.html">Back to Home</a>
+        </div>
+    </main>
+
+    <script>
+        function getQueryParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                passengerName: urlParams.get('passenger-name'),
+                departure: urlParams.get('departure'),
+                destination: urlParams.get('destination'),
+                date: urlParams.get('date'),
+                reason: urlParams.get('reason')
+            };
+        }
+
+        function saveCancellationToLocalStorage(cancellation) {
+            let cancellations = JSON.parse(localStorage.getItem('cancellations')) || [];
+            
+            // Check if this cancellation already exists
+            const exists = cancellations.some(existingCancellation =>
+                existingCancellation.passengerName === cancellation.passengerName &&
+                existingCancellation.departure === cancellation.departure &&
+                existingCancellation.destination === cancellation.destination &&
+                existingCancellation.date === cancellation.date &&
+                existingCancellation.reason === cancellation.reason
+            );
+            
+            if (!exists) {
+                cancellations.push(cancellation);
+                localStorage.setItem('cancellations', JSON.stringify(cancellations));
+            }
+        }
+
+        function displayCancellationDetails() {
+            const cancellationDetails = getQueryParams();
+            const confirmationMessage = `Your ticket has been successfully cancelled! Here are your cancellation details:`;
+            document.getElementById("confirmationMessage").textContent = confirmationMessage;
+
+            // Save the cancellation details to localStorage
+            saveCancellationToLocalStorage(cancellationDetails);
+
+            // Display the cancellation details in the table
+            const cancellationTable = document.getElementById("cancellationDetails");
+            if (cancellationDetails.passengerName && cancellationDetails.departure && cancellationDetails.destination && 
+                cancellationDetails.date && cancellationDetails.reason) {
+                const newRow = document.createElement("tr");
+                newRow.innerHTML = ` 
+                    <td>${cancellationDetails.passengerName}</td>
+                    <td>${cancellationDetails.departure}</td>
+                    <td>${cancellationDetails.destination}</td>
+                    <td>${cancellationDetails.date}</td>
+                    <td>${cancellationDetails.reason}</td>
+                `;
+                cancellationTable.appendChild(newRow);
+            }
+        }
+
+        function loadCancellationHistory() {
+            let cancellations = JSON.parse(localStorage.getItem('cancellations')) || [];
+            const cancellationTable = document.getElementById("cancellationDetails");
+
+            cancellations.forEach(cancellation => {
+                if (cancellation.passengerName && cancellation.departure && cancellation.destination && 
+                    cancellation.date && cancellation.reason) {
+                    const newRow = document.createElement("tr");
+                    newRow.innerHTML = `
+                        <td>${cancellation.passengerName}</td>
+                        <td>${cancellation.departure}</td>
+                        <td>${cancellation.destination}</td>
+                        <td>${cancellation.date}</td>
+                        <td>${cancellation.reason}</td>
+                    `;
+                    cancellationTable.appendChild(newRow);
+                }
+            });
+
+            if (!cancellationTable.hasChildNodes()) {
+                const emptyRow = document.createElement("tr");
+                emptyRow.innerHTML = `
+                    <td colspan="5" style="text-align: center;">No cancellations found.</td>
+                `;
+                cancellationTable.appendChild(emptyRow);
+            }
+        }
+
+        function clearCancellationHistory() {
+            localStorage.removeItem('cancellations');
+            document.getElementById("cancellationDetails").innerHTML = "";
+        }
+
+        // Display the new cancellation details
+        displayCancellationDetails();
+
+        // Load all previous cancellations
+        loadCancellationHistory();
+    </script>
+</body>
+</html>

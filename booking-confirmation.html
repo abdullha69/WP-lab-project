@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('railway4.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        .headline {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+        .tagline {
+            font-size: 1.2rem;
+            margin: 10px 0 0;
+        }
+        main {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .about, .history {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        h2 {
+            font-size: 1.8rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007BFF;
+        }
+        tr:nth-child(even) {
+            background-color: #1ca4b0;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .buttons a, .buttons button {
+            text-decoration: none;
+            background: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .buttons a:hover {
+            background: #0056b3;
+        }
+        .buttons button {
+            background: #FF5733;
+            border: none;
+        }
+        .buttons button:hover {
+            background: #C70039;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="headline">Ticket Booking Confirmation</h1>
+        <p class="tagline">Your ticket has been successfully booked!</p>
+    </header>
+
+    <main>
+        <section class="about">
+            <h2>Booking Details</h2>
+            <p id="confirmationMessage"></p>
+        </section>
+
+        <section class="history">
+            <h2>Your Booking History</h2>
+            <table>
+                <tr>
+                    <th>Passenger Name</th>
+                    <th>Train</th>
+                    <th>Departure</th>
+                    <th>Destination</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Class</th>
+                    <th>Passengers</th>
+                </tr>
+                <tbody id="bookingDetails">
+                    <!-- Booking details will appear here -->
+                </tbody>
+            </table>
+        </section>
+
+        <div class="buttons">
+            <button onclick="clearBookingHistory()">Clear Booking History</button>
+            <a href="Railway.html">Back to Home</a>
+        </div>
+    </main>
+
+    <script>
+        function getQueryParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                passengerName: urlParams.get('customer-name'),
+                train: urlParams.get('train-name'),
+                departure: urlParams.get('departure'),
+                destination: urlParams.get('destination'),
+                date: urlParams.get('date'),
+                time: urlParams.get('time'),
+                class: urlParams.get('class'),
+                passengers: urlParams.get('passengers')
+            };
+        }
+
+        function saveBookingToLocalStorage(booking) {
+            let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            bookings.push(booking);
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+        }
+
+        function displayBookingDetails() {
+            const bookingDetails = getQueryParams();
+            const confirmationMessage = `Your ticket has been successfully booked! Here are your booking details:`;
+            document.getElementById("confirmationMessage").textContent = confirmationMessage;
+
+            // Save the booking details to localStorage
+            saveBookingToLocalStorage(bookingDetails);
+
+            // Display the booking details in the table
+            const bookingTable = document.getElementById("bookingDetails");
+            if (bookingDetails.passengerName && bookingDetails.train && bookingDetails.departure && 
+                bookingDetails.destination && bookingDetails.date && bookingDetails.time && 
+                bookingDetails.class && bookingDetails.passengers) {
+                const newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                    <td>${bookingDetails.passengerName}</td>
+                    <td>${bookingDetails.train}</td>
+                    <td>${bookingDetails.departure}</td>
+                    <td>${bookingDetails.destination}</td>
+                    <td>${bookingDetails.date}</td>
+                    <td>${bookingDetails.time}</td>
+                    <td>${bookingDetails.class}</td>
+                    <td>${bookingDetails.passengers}</td>
+                `;
+                bookingTable.appendChild(newRow);
+            }
+        }
+
+        function loadBookingHistory() {
+            let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            const bookingTable = document.getElementById("bookingDetails");
+
+            bookings.forEach(booking => {
+                // Check if all fields in the booking object are non-null and non-empty
+                if (booking.passengerName && booking.train && booking.departure && booking.destination &&
+                    booking.date && booking.time && booking.class && booking.passengers) {
+                    const newRow = document.createElement("tr");
+                    newRow.innerHTML = `
+                        <td>${booking.passengerName}</td>
+                        <td>${booking.train}</td>
+                        <td>${booking.departure}</td>
+                        <td>${booking.destination}</td>
+                        <td>${booking.date}</td>
+                        <td>${booking.time}</td>
+                        <td>${booking.class}</td>
+                        <td>${booking.passengers}</td>
+                    `;
+                    bookingTable.appendChild(newRow);
+                }
+            });
+
+            // If no valid bookings are found, display a message
+            if (!bookingTable.hasChildNodes()) {
+                const emptyRow = document.createElement("tr");
+                emptyRow.innerHTML = `
+                    <td colspan="8" style="text-align: center;">No bookings found.</td>
+                `;
+                bookingTable.appendChild(emptyRow);
+            }
+        }
+
+        function clearBookingHistory() {
+            localStorage.removeItem('bookings');
+            document.getElementById("bookingDetails").innerHTML = "";
+        }
+
+        // Display the new booking details
+        displayBookingDetails();
+
+        // Load all previous bookings
+        loadBookingHistory();
+    </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Railway Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('railway4.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        .headline {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+        .tagline {
+            font-size: 1.2rem;
+            margin: 10px 0 0;
+        }
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 120px);
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+        .form-container {
+            flex: 1;
+            min-width: 300px;
+        }
+        .form-container h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        form label {
+            font-size: 1rem;
+        }
+        form input, form select, form button {
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: none;
+        }
+        form button {
+            background: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        .form-container a {
+            display: inline-block;
+            text-decoration: none;
+            background: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .form-container a:hover {
+            background: #0056b3;
+        }
+        .back-button {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .back-button a {
+            display: inline-block;
+            text-decoration: none;
+            background: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .back-button a:hover {
+            background: #0056b3;
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="headline">Booking your railway ticket</h1>
+        <p class="tagline">Fill in the details below to book your train ticket</p>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="form-container">
+                <h2>Book Your Ticket</h2>
+                <form action="booking-confirmation.html" method="GET">
+                    <!-- Input for Customer Name -->
+                    <label for="customer-name">Passenger Name:</label>
+                    <input type="text" id="customer-name" name="customer-name" placeholder="Enter your name" required>
+
+                    <!-- Dropdown for Train Selection -->
+                    <label for="train-name">Select Train:</label>
+                    <select id="train-name" name="train-name" required>
+                        <option value="Subarna Express">Subarna Express</option>
+                        <option value="Mohanagar Express">Mohanagar Express</option>
+                        <option value="Ekota Express">Ekota Express</option>
+                        <option value="Tista Express">Tista Express</option>
+                        <option value="Parabat Express">Parabat Express</option>
+                        <option value="Chattogram Express">Chattogram Express</option>
+                        <option value="Rajshahi Express">Rajshahi Express</option>
+                        <option value="Rangpur Express">Rangpur Express</option>
+                        <option value="Uttara Express">Uttara Express</option>
+                        <option value="Faridpur Express">Faridpur Express</option>                        
+                    </select>
+
+                    <label for="departure">Departure Station:</label>
+                    <input type="text" id="departure" name="departure" placeholder="Enter departure station" required>
+
+                    <label for="destination">Destination Station:</label>
+                    <input type="text" id="destination" name="destination" placeholder="Enter destination station" required>
+
+                    <label for="date">Date of Journey:</label>
+                    <input type="date" id="date" name="date" required>
+
+                    <label for="time">Preferred Time:</label>
+                    <select id="time" name="time">
+                        <option value="morning">Morning</option>
+                        <option value="afternoon">Afternoon</option>
+                        <option value="evening">Evening</option>
+                        <option value="night">Night</option>
+                    </select>
+
+                    <label for="class">Class of Travel:</label>
+                    <select id="class" name="class">
+                        <option value="first">First Class</option>
+                        <option value="second">Second Class</option>
+                        <option value="third">Third Class</option>
+                    </select>
+
+                    <label for="passengers">Number of Passengers:</label>
+                    <input type="number" id="passengers" name="passengers" min="1" max="10" placeholder="1" required>
+
+                    <button type="submit">Book Ticket</button>
+                </form>
+                <div class="back-button">
+                    <a href="Railway.html">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

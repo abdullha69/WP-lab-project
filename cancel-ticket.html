@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel Railway Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('railway4.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        .headline {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+        .tagline {
+            font-size: 1.2rem;
+            margin: 10px 0 0;
+        }
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 120px);
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+        .form-container {
+            flex: 1;
+            min-width: 300px;
+        }
+        .form-container h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        form label {
+            font-size: 1rem;
+        }
+        form input, form select, form textarea, form button {
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: none;
+        }
+        form button {
+            background: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        .form-container a {
+            display: inline-block;
+            text-decoration: none;
+            background: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .form-container a:hover {
+            background: #0056b3;
+        }
+        .back-button {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .back-button a {
+            display: inline-block;
+            text-decoration: none;
+            background: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .back-button a:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="headline">Cancel Railway Ticket</h1>
+        <p class="tagline">If you need to cancel your train ticket, please provide the necessary details below.</p>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="form-container">
+                <h2>Cancel Your Ticket</h2>
+                <form action="cancel-ticket-confirm.html" method="GET">
+                    <label for="passenger-name">Passenger Name:</label>
+                    <input type="text" id="passenger-name" name="passenger-name" placeholder="Enter passenger name" required>
+
+                    <label for="departure">Departure Station:</label>
+                    <input type="text" id="departure" name="departure" placeholder="Enter departure station" required>
+
+                    <label for="destination">Destination Station:</label>
+                    <input type="text" id="destination" name="destination" placeholder="Enter destination station" required>
+
+                    <label for="date">Date of Journey:</label>
+                    <input type="date" id="date" name="date" required>
+
+                    <label for="reason">Reason for Cancellation:</label>
+                    <textarea id="reason" name="reason" rows="4" placeholder="Enter the reason for cancellation" required></textarea>
+
+                    <button type="submit">Cancel Ticket</button>
+                </form>
+                <div class="back-button">
+                    <a href="Railway.html">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
